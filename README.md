@@ -85,14 +85,96 @@ There are no sidebars by default. The focus stays on the stream.
 
 Most of the theme styling is controlled by CSS variables in `style.css`:
 
-```css
-:root {
-  --bg-body: #05070a;
-  --bg-card: #101827;
-  --accent: #f97316;
-  --text-main: #e5e7eb;
-  --text-muted: #9ca3af;
-  --radius-lg: 14px;
-  --gap-lg: 1.75rem;
-  --font-sans: "Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
+---
+
+## You can fork the theme and:
+
+- Change the accent color
+
+- Adjust background colors for the body and cards
+
+- Swap the font stack
+
+- Tweak spacing and border radius
+
+The clickable card behavior lives in microblog.js. It:
+
+- Makes .micro-post cards clickable on home, blog, and archive views.
+
+- Uses a data-permalink attribute on each card.
+
+- Ignores clicks on links and form controls inside the card so those still behave normally.
+
+---
+
+## Footer credits
+
+By default, the footer contains a credit line that mentions:
+
+- Microblog Stream theme by Jim Lunsford
+
+- Help from ChatGPT
+
+- Powered by Phoenix 2:33 LLC
+
+If you fork this theme for your own use, you can edit footer.php to change or remove the credits.
+
+---
+
+## Screenshots
+
+The theme includes a screenshot.png that shows:
+
+- The header card with site title, tagline, and live microblog status
+
+- A vertical stack of micro posts rendered as cards
+
+You can replace screenshot.png with your own preview, as long as it is named screenshot.png and placed in the theme root.
+
+---
+
+## Roadmap
+
+Planned ideas:
+
+- Optional “Load more” style pagination for a continuous stream feel
+
+- Customizer or theme JSON options for color presets
+
+- More refined comment styling for long conversations
+
+- Light mode option
+
+Suggestions and pull requests are welcome.
+
+---
+
+## Contributing
+
+If you want to:
+
+- Report a bug
+
+- Suggest a feature
+
+- Improve the design or code
+
+Feel free to open an issue or submit a pull request on GitHub.
+
+Please keep changes consistent with the theme goals:
+
+- Lightweight
+
+- Microblog focused
+
+- No heavy frameworks
+
+- Simple to install and use
+
+---
+
+## License
+
+Microblog Stream is released under the GNU General Public License v2 or later.
+
+You are free to use, modify, and share this theme, as long as any derivative work is also released under the GPL.
