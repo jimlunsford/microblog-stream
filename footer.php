@@ -1,21 +1,15 @@
 <?php
 /**
  * Footer template
+ *
+ * @package Microblog_Stream
  */
 ?>
         <footer class="site-footer">
             <p>
-                Microblog Stream theme by
+                Created by
                 <a href="https://jimlunsford.com" target="_blank" rel="noopener">
                     Jim Lunsford
-                </a>
-                with the help of
-                <a href="https://chatgpt.com/" target="_blank" rel="noopener">
-                    ChatGPT
-                </a>.
-                Powered by
-                <a href="https://phoenix233.com" target="_blank" rel="noopener">
-                    Phoenix 2:33 LLC.
                 </a>
             </p>
         </footer>

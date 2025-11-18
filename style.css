@@ -4,7 +4,7 @@ Theme URI: https://github.com/jimlunsford/microblog-stream/
 Author: Jim Lunsford
 Author URI: https://jiml.fyi
 Description: A clean microblog theme that displays posts in a fast, scrollable timeline.
-Version: 1.0.0
+Version: 1.0.1
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: microblog-stream
@@ -160,6 +160,77 @@ body {
   border-radius: 999px;
   background: #22c55e;
   box-shadow: 0 0 0 1px rgba(15, 23, 42, 1), 0 0 12px rgba(34, 197, 94, 0.85);
+}
+
+/* Compose box on the front page */
+
+.micro-compose {
+  margin-bottom: 1.5rem;
+}
+
+.micro-compose-form {
+  margin: 0;
+}
+
+.micro-compose-inner {
+  background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.08), var(--bg-card));
+  border-radius: 12px;
+  border: 1px solid rgba(51, 65, 85, 0.85);
+  box-shadow: var(--shadow-soft);
+  padding: 0.85rem 1rem 0.75rem;
+}
+
+.micro-compose-textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 3.2rem;
+  max-height: 12rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.micro-compose-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.micro-compose-footer {
+  margin-top: 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.micro-compose-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.micro-compose-submit {
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--accent);
+  color: #111827;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 1), 0 0 14px rgba(249, 115, 22, 0.6);
+}
+
+.micro-compose-submit:hover {
+  filter: brightness(1.05);
+}
+
+.micro-compose-notice {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
 }
 
 /* Timeline */
@@ -361,6 +432,47 @@ body {
   background: var(--accent);
   color: #111827;
   border-color: transparent;
+}
+
+/* Load more style pagination (used with JS infinite-feel load) */
+
+.pagination-load-more {
+  margin-top: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pagination-load-more .pagination-older a {
+  padding: 0.45rem 1.4rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #111827;
+  border: none;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 1), 0 0 14px rgba(249, 115, 22, 0.6);
+}
+
+.pagination-load-more .pagination-older a:hover {
+  filter: brightness(1.05);
+}
+
+.pagination-load-more .pagination-older a.is-disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+.pagination-load-more .pagination-newer a {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.pagination-load-more .pagination-newer a:hover {
+  color: #fed7aa;
 }
 
 /* Footer */

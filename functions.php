@@ -97,3 +97,52 @@ function microblog_stream_autotitle( $data, $postarr ) {
     return $data;
 }
 add_filter( 'wp_insert_post_data', 'microblog_stream_autotitle', 10, 2 );
+/**
+ * Handle front page microblog quick post submissions.
+ */
+function microblog_stream_handle_quick_post() {
+
+    // Must be logged in.
+    if ( ! is_user_logged_in() ) {
+        wp_safe_redirect( home_url() );
+        exit;
+    }
+
+    // Must have permission to publish posts.
+    if ( ! current_user_can( 'publish_posts' ) ) {
+        wp_safe_redirect( home_url() );
+        exit;
+    }
+
+    // Check nonce.
+    if ( ! isset( $_POST['microblog_quick_nonce'] ) || ! wp_verify_nonce( $_POST['microblog_quick_nonce'], 'microblog_quick_post' ) ) {
+        wp_safe_redirect( home_url() );
+        exit;
+    }
+
+    $content = isset( $_POST['microblog_content'] ) ? wp_kses_post( wp_unslash( $_POST['microblog_content'] ) ) : '';
+
+    if ( '' === trim( $content ) ) {
+        // Nothing to save, just bounce back.
+        wp_safe_redirect( home_url() );
+        exit;
+    }
+
+    $post_args = array(
+        'post_title'   => '', // You already handle empty titles by date/time.
+        'post_content' => $content,
+        'post_status'  => 'publish',
+        'post_type'    => 'post',
+        'post_author'  => get_current_user_id(),
+    );
+
+    $post_id = wp_insert_post( $post_args );
+
+    // Redirect back to home with a small flag.
+    $redirect = home_url( '/' );
+    $redirect = add_query_arg( 'micro_posted', '1', $redirect );
+
+    wp_safe_redirect( $redirect );
+    exit;
+}
+add_action( 'admin_post_microblog_quick_post', 'microblog_stream_handle_quick_post' );
