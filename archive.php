@@ -14,6 +14,7 @@ get_header();
                     <h1 class="micro-post-title">
                         <?php the_archive_title(); ?>
                     </h1>
+
                     <div class="micro-post-content">
                         <?php the_archive_description(); ?>
                     </div>
@@ -32,8 +33,14 @@ get_header();
             <?php
             echo paginate_links(
                 array(
-                    'prev_text' => '&larr; Newer',
-                    'next_text' => 'Older &rarr;',
+                    'prev_text' => sprintf(
+                        '&larr; %s',
+                        esc_html__( 'Newer', 'microblog-stream' )
+                    ),
+                    'next_text' => sprintf(
+                        '%s &rarr;',
+                        esc_html__( 'Older', 'microblog-stream' )
+                    ),
                 )
             );
             ?>
@@ -41,7 +48,7 @@ get_header();
 
     <?php else : ?>
 
-        <p>No posts found.</p>
+        <p><?php esc_html_e( 'No posts found.', 'microblog-stream' ); ?></p>
 
     <?php endif; ?>
 </main>

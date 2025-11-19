@@ -8,7 +8,7 @@
         <footer class="site-footer">
             <p>
                 Created by
-                <a href="https://jimlunsford.com" target="_blank" rel="noopener">
+                <a href="https://jimlunsford.com" target="_blank" rel="noopener noreferrer">
                     Jim Lunsford
                 </a>
             </p>

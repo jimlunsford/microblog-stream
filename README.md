@@ -1,8 +1,8 @@
 # Microblog Stream
 
-Microblog Stream is a lightweight WordPress theme that turns your site into a fast, scrollable microblog stream. Posts look and feel like social updates, not traditional blog articles.
+Microblog Stream is a lightweight WordPress theme that turns your site into a fast, scrollable microblog timeline. Posts are presented as short updates, with emphasis on content, author, and time, instead of big headlines and heavy layouts.
 
-The theme is built for posting quick thoughts, short reflections, and real time updates without worrying about titles or heavy layouts.
+The theme is built for posting quick thoughts, short reflections, and real time updates without worrying about titles or complex formatting.
 
 > Status: Early release. Expect small changes as the theme evolves.
 
@@ -14,10 +14,42 @@ The theme is built for posting quick thoughts, short reflections, and real time 
 - Titleless posting workflow, admin titles are auto generated from date and time  
 - X / Twitter inspired layout with avatar, author, and timestamp above each post  
 - Single post view that still feels like part of the stream  
-- Clickable cards on home and archive views  
-- Simple tag styling for optional hashtags  
-- Focus on content and replies rather than widgets and sidebars  
-- Clean dark theme with an orange accent, easy to customize with CSS variables  
+- Simple archive pages that reuse the same micro post layout  
+- Tag support for light organization and discovery  
+
+### Inline composer
+
+- Inline composer box on the front page for logged in authors  
+- Quick post form sends content through `admin-post.php`  
+- Uses standard WordPress post type, no custom tables or CPTs  
+- Respects capabilities (only users who can publish posts will see it)  
+
+### Load more pagination
+
+- "Load more" style pagination for the main stream  
+- Older posts are loaded via the default WordPress pagination system  
+- JavaScript enhances the experience by loading additional posts without a full page reload  
+- Fallback pagination still works when JavaScript is disabled  
+
+### Design
+
+- Clean, focused layout that keeps attention on the content  
+- Responsive timeline that works on mobile, tablet, and desktop  
+- Uses system fonts for performance and a native feel  
+- Avatar, author, and timestamp at the top of each micro post  
+- Simple tag styling for optional discovery  
+- Small visual details like subtle borders, spacing, and hover states  
+
+### Philosophy
+
+Microblog Stream is intentionally simple:
+
+- Microblog focused  
+- No heavy frameworks  
+- Minimal options  
+- Simple to install and use  
+
+If you want a bigger site with landing pages, complex navigation, and multiple layouts, you can pair this theme with a separate main site or use it on a subdomain for your personal stream.
 
 ---
 
@@ -25,151 +57,94 @@ The theme is built for posting quick thoughts, short reflections, and real time 
 
 - WordPress 6.0 or higher  
 - PHP 7.4 or higher  
-
-The theme should work with a standard WordPress install with pretty permalinks enabled.
+- A modern browser for the best experience  
 
 ---
 
 ## Installation
 
-### From source
+1. Download the theme files or clone the repository.  
+2. Upload the `microblog-stream` folder to `wp-content/themes/`.  
+3. In your WordPress dashboard, go to **Appearance → Themes**.  
+4. Activate **Microblog Stream**.  
+5. (Optional) Set your homepage to show your latest posts under **Settings → Reading**.  
 
-1. Clone or download this repository.
-2. Copy the `microblog-stream` folder into `wp-content/themes/` on your WordPress site.
-3. In the WordPress admin, go to **Appearance → Themes**.
-4. Activate **Microblog Stream**.
-
-### From a zip
-
-1. Download a release zip from the GitHub Releases page (when available).
-2. In the WordPress admin, go to **Appearance → Themes → Add New → Upload Theme**.
-3. Upload the zip, install, and activate.
+Once activated, your front page will show posts in the microblog stream layout.
 
 ---
 
-## How posting works
+## Posting
 
-Microblog Stream is designed to feel like a social stream.
+You can post to the stream in two ways:
 
-- Create a new **Post** like normal.
-- Type your update in the main content editor.
-- Leave the title field empty.
-- When you publish, the theme auto generates an internal title from the post date and time.  
-  - Example in the admin list: `Nov 15, 2025 3:27 pm`.
+1. **Standard WordPress post editor**  
+   - Go to **Posts → Add New**.  
+   - Leave the title blank if you want to use the automatic date and time title.  
+   - Write your update in the content editor.  
+   - Publish as normal.  
 
-On the front end:
+2. **Inline composer (front page)**  
+   - Log in to WordPress as a user who can publish posts.  
+   - Visit the front page.  
+   - Use the inline composer box at the top of the stream.  
+   - Type your update and click **Post**.  
+   - The theme handles the quick post and redirects you back to the stream.  
 
-- The content is treated as the post.
-- Above the content you see `Author · Date Time`.
-- Tags (optional) appear as small hashtag chips at the bottom of the card.
-- Clicking the card opens the single post view where people can reply through comments.
-
----
-
-## Layout overview
-
-- **Front page**  
-  The home page shows a reverse chronological stream of posts using the microblog card layout. Each card is clickable and acts like an entry in a social feed.
-
-- **Single post**  
-  The single post template uses the same card style so it feels like a focused version of the stream, not a separate blog layout. Comments appear under the card as replies.
-
-- **Archives**  
-  Category, tag, and date archives reuse the same stream layout.
-
-There are no sidebars by default. The focus stays on the stream.
+Inline composer is only shown on the main blog page for logged in users with permission to publish posts. It is not shown on archive views or for visitors who are not logged in.
 
 ---
 
 ## Customization
 
-Most of the theme styling is controlled by CSS variables in `style.css`:
+Microblog Stream is intentionally minimal. It does not add options pages or heavy Customizer panels.
+
+To customize the look and feel:
+
+- Use **Appearance → Editor** (or **Appearance → Customize** on classic setups) for basic site settings like site title and tagline.  
+- Add custom CSS with the built in Customizer, or by creating a child theme if you want deeper control.  
+- Adjust colors, spacing, and fonts by overriding the theme CSS in a child theme or using additional CSS.  
+
+The theme uses semantic class names and a simple structure so you can target elements easily with your own styles.
 
 ---
 
-## You can fork the theme and:
+## Development
 
-- Change the accent color
+Microblog Stream is a standard WordPress theme that follows common theme development practices.
 
-- Adjust background colors for the body and cards
+- Uses `wp_head()`, `wp_footer()`, and `wp_body_open()` for compatibility  
+- Enqueues scripts and styles the WordPress way  
+- Uses template parts for the micro post layout  
+- Sanitizes and escapes output where appropriate  
 
-- Swap the font stack
+If you want to extend the theme, recommended approaches include:
 
-- Tweak spacing and border radius
+- Creating a child theme for visual changes  
+- Hooking into WordPress actions and filters for behavior changes  
+- Extending templates via `get_template_part()` and custom partials  
 
-The clickable card behavior lives in microblog.js. It:
-
-- Makes .micro-post cards clickable on home, blog, and archive views.
-
-- Uses a data-permalink attribute on each card.
-
-- Ignores clicks on links and form controls inside the card so those still behave normally.
-
----
-
-## Footer credits
-
-By default, the footer contains a credit line that mentions:
-
-- Microblog Stream theme by Jim Lunsford
-
-- Help from ChatGPT
-
-- Powered by Phoenix 2:33 LLC
-
-If you fork this theme for your own use, you can edit footer.php to change or remove the credits.
+Pull requests and suggestions are welcome in the GitHub repository.
 
 ---
 
-## Screenshots
+## Changelog
 
-The theme includes a screenshot.png that shows:
+### 1.0.2
 
-- The header card with site title, tagline, and live microblog status
+- Internationalization improvements for front facing strings  
+- Security hardening for the quick post handler  
+- Added `wp_body_open()` support and a small footer safety tweak  
 
-- A vertical stack of micro posts rendered as cards
+### 1.0.1
 
-You can replace screenshot.png with your own preview, as long as it is named screenshot.png and placed in the theme root.
+- Added inline composer for logged in authors on the front page  
+- Added "Load more" AJAX pagination for the stream  
+- Simplified default footer credit to "Created by Jim Lunsford."  
+- Minor visual tweaks to header and post layout  
 
----
+### 1.0.0
 
-## Roadmap
-
-Planned ideas:
-
-- Optional “Load more” style pagination for a continuous stream feel
-
-- Customizer or theme JSON options for color presets
-
-- More refined comment styling for long conversations
-
-- Light mode option
-
-Suggestions and pull requests are welcome.
-
----
-
-## Contributing
-
-If you want to:
-
-- Report a bug
-
-- Suggest a feature
-
-- Improve the design or code
-
-Feel free to open an issue or submit a pull request on GitHub.
-
-Please keep changes consistent with the theme goals:
-
-- Lightweight
-
-- Microblog focused
-
-- No heavy frameworks
-
-- Simple to install and use
+- Initial release  
 
 ---
 

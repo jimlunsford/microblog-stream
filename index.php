@@ -26,16 +26,16 @@ get_header();
                             name="microblog_content"
                             class="micro-compose-textarea"
                             rows="3"
-                            placeholder="What is happening?"
+                            placeholder="<?php esc_attr_e( 'What is happening?', 'microblog-stream' ); ?>"
                             required
                         ></textarea>
 
                         <div class="micro-compose-footer">
                             <span class="micro-compose-hint">
-                                Press Post to publish a new update.
+                                <?php esc_html_e( 'Press Post to publish a new update.', 'microblog-stream' ); ?>
                             </span>
                             <button type="submit" class="micro-compose-submit">
-                                Post
+                                <?php esc_html_e( 'Post', 'microblog-stream' ); ?>
                             </button>
                         </div>
                     </div>
@@ -46,7 +46,7 @@ get_header();
 
                 <?php if ( isset( $_GET['micro_posted'] ) && '1' === $_GET['micro_posted'] ) : ?>
                     <p class="micro-compose-notice">
-                        Update posted.
+                        <?php esc_html_e( 'Update posted.', 'microblog-stream' ); ?>
                     </p>
                 <?php endif; ?>
             </section>
@@ -72,13 +72,13 @@ get_header();
 
                     <?php if ( get_next_posts_link() ) : ?>
                         <div class="pagination-older">
-                            <?php next_posts_link( 'Load more' ); ?>
+                            <?php next_posts_link( esc_html__( 'Load more', 'microblog-stream' ) ); ?>
                         </div>
                     <?php endif; ?>
 
                     <?php if ( is_paged() && get_previous_posts_link() ) : ?>
                         <div class="pagination-newer">
-                            <?php previous_posts_link( 'Newer posts' ); ?>
+                            <?php previous_posts_link( esc_html__( 'Newer posts', 'microblog-stream' ) ); ?>
                         </div>
                     <?php endif; ?>
 
@@ -87,7 +87,7 @@ get_header();
 
         <?php else : ?>
 
-            <p>No posts yet. Create your first micro post to get started.</p>
+            <p><?php esc_html_e( 'No posts yet. Create your first micro post to get started.', 'microblog-stream' ); ?></p>
 
         <?php endif; ?>
 
