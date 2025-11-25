@@ -62,7 +62,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
       isLoading = true;
       var originalLabel = loadMoreLink.textContent;
-      loadMoreLink.textContent = 'Loading...';
+      loadMoreLink.textContent =
+        typeof microblogStreamL10n !== 'undefined'
+          ? microblogStreamL10n.loading
+          : 'Loading...';
 
       fetch(url, { credentials: 'same-origin' })
         .then(function (response) {
@@ -76,7 +79,10 @@ document.addEventListener('DOMContentLoaded', function () {
           var newPosts = doc.querySelectorAll('.timeline .micro-post');
 
           if (newPosts.length === 0) {
-            loadMoreLink.textContent = 'No more posts';
+            loadMoreLink.textContent =
+              typeof microblogStreamL10n !== 'undefined'
+                ? microblogStreamL10n.noMorePosts
+                : 'No more posts';
             loadMoreLink.classList.add('is-disabled');
             loadMoreLink.removeAttribute('href');
             return;
@@ -102,7 +108,10 @@ document.addEventListener('DOMContentLoaded', function () {
             loadMoreLink.textContent = originalLabel;
           } else {
             // No more pages. Disable the button.
-            loadMoreLink.textContent = 'No more posts';
+            loadMoreLink.textContent =
+              typeof microblogStreamL10n !== 'undefined'
+                ? microblogStreamL10n.noMorePosts
+                : 'No more posts';
             loadMoreLink.classList.add('is-disabled');
             loadMoreLink.removeAttribute('href');
           }

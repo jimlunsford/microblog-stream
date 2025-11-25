@@ -57,13 +57,23 @@ function microblog_stream_scripts() {
         wp_get_theme()->get( 'Version' )
     );
 
-    // Theme script for clickable cards.
+    // Theme script for clickable cards and load more.
     wp_enqueue_script(
         'microblog-stream-script',
         get_template_directory_uri() . '/microblog.js',
         array(),
         wp_get_theme()->get( 'Version' ),
         true
+    );
+
+    // Localized strings for JavaScript.
+    wp_localize_script(
+        'microblog-stream-script',
+        'microblogStreamL10n',
+        array(
+            'loading'     => esc_html__( 'Loading...', 'microblog-stream' ),
+            'noMorePosts' => esc_html__( 'No more posts', 'microblog-stream' ),
+        )
     );
 }
 add_action( 'wp_enqueue_scripts', 'microblog_stream_scripts' );
@@ -74,7 +84,14 @@ add_action( 'wp_enqueue_scripts', 'microblog_stream_scripts' );
 function microblog_stream_time_ago() {
     $time           = get_the_time( 'U' );
     $human_readable = human_time_diff( $time, current_time( 'timestamp' ) );
-    echo esc_html( $human_readable . ' ago' );
+
+    $time_string = sprintf(
+        /* translators: %s: human readable time difference, for example "5 minutes". */
+        __( '%s ago', 'microblog-stream' ),
+        $human_readable
+    );
+
+    echo esc_html( $time_string );
 }
 
 /**
@@ -97,6 +114,7 @@ function microblog_stream_autotitle( $data, $postarr ) {
     return $data;
 }
 add_filter( 'wp_insert_post_data', 'microblog_stream_autotitle', 10, 2 );
+
 /**
  * Handle front page microblog quick post submissions.
  */
@@ -129,7 +147,7 @@ function microblog_stream_handle_quick_post() {
     }
 
     $post_args = array(
-        'post_title'   => '', // You already handle empty titles by date/time.
+        'post_title'   => '', // You already handle empty titles by date and time.
         'post_content' => $content,
         'post_status'  => 'publish',
         'post_type'    => 'post',

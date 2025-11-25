@@ -8,7 +8,7 @@
 get_header();
 ?>
 
-<main class="site-main">
+<main id="content" class="site-main">
     <div class="timeline">
 
         <?php

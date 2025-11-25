@@ -4,7 +4,10 @@ Theme URI: https://github.com/jimlunsford/microblog-stream/
 Author: Jim Lunsford
 Author URI: https://jiml.fyi
 Description: A clean microblog theme that displays posts in a fast, scrollable timeline.
-Version: 1.0.2
+Version: 1.0.3
+Requires at least: 6.0
+Tested up to: 6.6
+Requires PHP: 7.4
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: microblog-stream
@@ -603,6 +606,82 @@ pre {
 
 .comment-form input[type="submit"]:hover {
   background: #fed7aa;
+}
+
+/* Screen reader only text */
+
+.screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.screen-reader-text:focus,
+.screen-reader-text:focus-visible {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  clip: auto;
+}
+
+/* Skip link for keyboard users */
+
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.4rem 0.9rem;
+  background: #111827;
+  color: #f9fafb;
+  z-index: 100;
+  border-radius: 999px;
+  border: 1px solid rgba(249, 115, 22, 0.9);
+  text-decoration: none;
+  transform: translateY(-200%);
+  opacity: 0;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Ensure links in content and comments are underlined */
+
+.micro-post-content a,
+.comment-content a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.micro-post-content a:hover,
+.comment-content a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Global keyboard focus styles */
+
+a:focus-visible,
+button:focus-visible,
+input[type="submit"]:focus-visible {
+  outline: 2px solid rgba(249, 115, 22, 0.9);
+  outline-offset: 2px;
+}
+
+.pagination a:focus-visible,
+.pagination-load-more .pagination-older a:focus-visible,
+.micro-compose-submit:focus-visible {
+  box-shadow:
+    0 0 0 2px rgba(15, 23, 42, 1),
+    0 0 0 4px rgba(249, 115, 22, 0.9);
 }
 
 /* Responsive tweaks */

@@ -6,7 +6,7 @@
 get_header();
 ?>
 
-<main class="timeline" role="main">
+<main id="content" class="timeline" role="main">
     <?php if ( have_posts() ) : ?>
         <header class="archive-header micro-post">
             <div class="micro-post-inner">
