@@ -3,10 +3,10 @@ Contributors: jimlunsford
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, one-column, dark, responsive-layout, microblogging
+Tags: blog, one-column, front-page-post-form, translation-ready
 
 Microblog Stream is a lightweight WordPress theme that turns your site into a simple, fast microblog timeline. Posts are displayed in a clean vertical stream with avatars, timestamps, and subtle cards that look and feel like social updates, not traditional blog articles.
 
@@ -25,10 +25,10 @@ Key features:
 * X / Twitter inspired layout with avatar, author, and timestamp above each post
 * Single post view that keeps the same card based stream look
 * Accessible color contrast and keyboard focus styles
+* Skip link and screen reader utilities
 * Clean typography using Noto Sans (with system font fallbacks)
 * Responsive layout that works on phones, tablets, and desktops
-* No custom blocks or page builders required
-* No bundled plugins or upsells
+* No custom post types, blocks, page builders, or bundled plugins
 
 The goal is to provide a focused writing experience for people who want to post small, frequent updates on their own domain instead of relying only on social platforms.
 
@@ -70,11 +70,17 @@ By default the footer shows a small credit line. If you are using the theme for 
 
 == Changelog ==
 
+= 1.0.4 =
+
+* Added theme tags to the stylesheet header for the WordPress.org theme directory
+* Added a `languages` directory and marked the theme as translation ready
+* Synced documentation and metadata for the 1.0.4 release
+
 = 1.0.3 =
 
-* Added a dedicated comments.php template to replace the deprecated core fallback
+* Added a dedicated `comments.php` template to replace the deprecated core fallback
 * Added skip link and screen reader utility classes for basic accessibility support
-* Underlined links in post content and comments, and improved keyboard focus states
+* Underlined links in post content and comments and improved keyboard focus states
 * Localized JavaScript strings for the “Load more” button
 * Localized the “time ago” timestamp string
 * Updated theme headers for WordPress.org theme requirements
@@ -102,9 +108,9 @@ By default the footer shows a small credit line. If you are using the theme for 
 
 == Upgrade Notice ==
 
-= 1.0.3 =
+= 1.0.4 =
 
-This release prepares Microblog Stream for the WordPress.org theme directory. It adds a proper comments template, accessibility improvements, and stronger translation support. Recommended for all users.
+This release adds official theme tags and a languages directory so the theme is ready for the WordPress.org theme directory. There are no breaking changes.
 
 == Resources ==
 
