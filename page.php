@@ -1,6 +1,6 @@
 <?php
 /**
- * Single post template for Microblog Stream.
+ * Page template for static pages (About, Contact, etc.)
  *
  * @package Microblog_Stream
  */
@@ -8,30 +8,42 @@
 get_header();
 ?>
 
-<main id="site-main" class="site-main">
-    <div class="timeline">
+<main class="site-main">
+  <div class="timeline">
 
-        <?php
-        if ( have_posts() ) :
-            while ( have_posts() ) :
-                the_post();
-                get_template_part( 'content', 'micro' );
-                ?>
+    <?php if ( have_posts() ) : ?>
+      <?php while ( have_posts() ) : the_post(); ?>
 
-                <div class="comments-wrap">
-                    <?php
-                    if ( comments_open() || get_comments_number() ) {
-                        comments_template();
-                    }
-                    ?>
-                </div>
+        <article id="post-<?php the_ID(); ?>" <?php post_class( 'micro-post micro-page' ); ?>>
+          <div class="micro-post-inner">
+            <div class="micro-post-main">
 
+              <h1 class="micro-post-title">
+                <?php the_title(); ?>
+              </h1>
+
+              <div class="micro-post-content">
                 <?php
-            endwhile;
-        endif;
-        ?>
+                the_content();
 
-    </div><!-- .timeline -->
+                // Support paginated pages created with <!--nextpage--> tags.
+                wp_link_pages(
+                  array(
+                    'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'microblog-stream' ),
+                    'after'  => '</div>',
+                  )
+                );
+                ?>
+              </div>
+
+            </div>
+          </div>
+        </article>
+
+      <?php endwhile; ?>
+    <?php endif; ?>
+
+  </div><!-- .timeline -->
 </main>
 
 <?php

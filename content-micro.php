@@ -1,33 +1,33 @@
 <?php
 /**
- * Template part for displaying a single micro post card.
+ * Template part for displaying a microblog post
  *
  * @package Microblog_Stream
  */
-
-$permalink = get_permalink();
-$likes     = (int) get_post_meta( get_the_ID(), '_microblog_like_count', true );
-$replies   = get_comments_number();
-$media_id  = (int) get_post_meta( get_the_ID(), '_microblog_media_id', true );
 ?>
-
 <article
     id="post-<?php the_ID(); ?>"
     <?php post_class( 'micro-post' ); ?>
-    data-permalink="<?php echo esc_url( $permalink ); ?>"
+    data-permalink="<?php the_permalink(); ?>"
 >
     <div class="micro-post-inner">
 
         <div class="micro-post-avatar">
-            <?php echo get_avatar( get_the_author_meta( 'ID' ), 40 ); ?>
+            <?php
+            // Use the post author's avatar; 40px is styled in CSS.
+            echo get_avatar( get_the_author_meta( 'ID' ), 40 );
+            ?>
         </div>
 
         <div class="micro-post-main">
+
             <div class="micro-post-headerline">
-                <span class="micro-post-author"><?php the_author(); ?></span>
-                <span class="micro-post-separator">·</span>
+                <span class="micro-post-author">
+                    <?php echo esc_html( get_the_author() ); ?>
+                </span>
+                <span class="micro-post-separator">&middot;</span>
                 <span class="micro-post-datetime">
-                    <?php microblog_stream_time_ago(); ?>
+                    <?php echo esc_html( get_the_time( 'M j, Y g:i a' ) ); ?>
                 </span>
             </div>
 
@@ -35,82 +35,107 @@ $media_id  = (int) get_post_meta( get_the_ID(), '_microblog_media_id', true );
                 <?php the_content(); ?>
             </div>
 
-            <?php if ( $media_id ) : ?>
-                <?php
-                $mime_type = get_post_mime_type( $media_id );
-                $media_url = wp_get_attachment_url( $media_id );
+            <?php
+            // Optional media attached via the inline composer.
+            $attachment_id = (int) get_post_meta( get_the_ID(), '_microblog_media_id', true );
+
+            if ( $attachment_id ) :
+                $mime_type = get_post_mime_type( $attachment_id );
+                $url       = wp_get_attachment_url( $attachment_id );
                 ?>
-                <?php if ( $mime_type && $media_url ) : ?>
+                <?php if ( $mime_type && 0 === strpos( $mime_type, 'image/' ) ) : ?>
                     <div class="micro-post-media">
-                        <?php if ( 0 === strpos( $mime_type, 'image/' ) ) : ?>
-
-                            <?php echo wp_get_attachment_image( $media_id, 'large' ); ?>
-
-                        <?php elseif ( 0 === strpos( $mime_type, 'video/' ) ) : ?>
-
-                            <?php echo wp_video_shortcode( array( 'src' => $media_url ) ); ?>
-
-                        <?php elseif ( 0 === strpos( $mime_type, 'audio/' ) ) : ?>
-
-                            <?php echo wp_audio_shortcode( array( 'src' => $media_url ) ); ?>
-
-                        <?php else : ?>
-                            <a
-                                href="<?php echo esc_url( $media_url ); ?>"
-                                class="micro-doc-chip"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="micro-doc-chip-icon" aria-hidden="true">📄</span>
-                                <span class="micro-doc-chip-label">
-                                    <?php echo esc_html( get_the_title( $media_id ) ); ?>
-                                </span>
-                            </a>
-                        <?php endif; ?>
+                        <?php echo wp_get_attachment_image( $attachment_id, 'large' ); ?>
+                    </div>
+                <?php elseif ( $mime_type && 0 === strpos( $mime_type, 'video/' ) && $url ) : ?>
+                    <div class="micro-post-media">
+                        <?php echo wp_video_shortcode( array( 'src' => $url ) ); ?>
+                    </div>
+                <?php elseif ( $mime_type && 0 === strpos( $mime_type, 'audio/' ) && $url ) : ?>
+                    <div class="micro-post-media">
+                        <?php echo wp_audio_shortcode( array( 'src' => $url ) ); ?>
+                    </div>
+                <?php elseif ( $url ) : ?>
+                    <div class="micro-post-media">
+                        <a class="micro-doc-chip" href="<?php echo esc_url( $url ); ?>">
+                            <span class="micro-doc-chip-icon" aria-hidden="true">📄</span>
+                            <span>
+                                <?php
+                                $attachment_title = get_the_title( $attachment_id );
+                                if ( $attachment_title ) {
+                                    echo esc_html( $attachment_title );
+                                } else {
+                                    $path = parse_url( $url, PHP_URL_PATH );
+                                    echo esc_html( basename( $path ) );
+                                }
+                                ?>
+                            </span>
+                        </a>
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
 
-            <footer class="micro-post-meta">
-
+            <div class="micro-post-meta">
                 <div class="micro-post-tags">
-                    <?php the_tags( '', '', '' ); ?>
+                    <?php
+                    $tags = get_the_tags();
+                    if ( $tags ) {
+                        foreach ( $tags as $tag ) {
+                            printf(
+                                '<a class="micro-tag" href="%1$s">#%2$s</a>',
+                                esc_url( get_tag_link( $tag->term_id ) ),
+                                esc_html( $tag->name )
+                            );
+                        }
+                    }
+                    ?>
                 </div>
 
                 <div class="micro-post-actions">
-
+                    <?php
+                    // Like button.
+                    $like_count = (int) get_post_meta( get_the_ID(), '_microblog_like_count', true );
+                    $like_label = microblog_stream_like_label( $like_count );
+                    ?>
                     <button
                         type="button"
-                        class="micro-meta-pill micro-like-button"
-                        data-post-id="<?php the_ID(); ?>"
+                        class="micro-like-button micro-meta-pill"
+                        data-post-id="<?php echo esc_attr( get_the_ID() ); ?>"
                         aria-pressed="false"
                     >
-                        <span class="micro-meta-pill-icon" aria-hidden="true"></span>
+                        <span class="micro-meta-pill-icon"></span>
                         <span class="micro-like-text">
-                            <?php echo esc_html( microblog_stream_like_label( $likes ) ); ?>
+                            <?php echo esc_html( $like_label ); ?>
                         </span>
                     </button>
 
-                    <a
-                        class="micro-meta-pill micro-replies-pill"
-                        href="<?php echo esc_url( get_comments_link() ); ?>"
-                    >
-                        <span class="micro-meta-pill-icon" aria-hidden="true"></span>
-                        <span class="micro-replies-text">
-                            <?php
-                            /* translators: %s: number of replies (comments). */
-                            printf(
-                                esc_html( _n( '%s reply', '%s replies', $replies, 'microblog-stream' ) ),
-                                number_format_i18n( $replies )
-                            );
-                            ?>
+                    <?php if ( comments_open() || get_comments_number() ) : ?>
+                        <a class="micro-meta-pill" href="<?php comments_link(); ?>">
+                            <span class="micro-meta-pill-icon"></span>
+                            <span>
+                                <?php
+                                echo esc_html(
+                                    get_comments_number_text(
+                                        __( '0 replies', 'microblog-stream' ),
+                                        __( '1 reply', 'microblog-stream' ),
+                                        __( '% replies', 'microblog-stream' )
+                                    )
+                                );
+                                ?>
+                            </span>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if ( is_singular() ) : ?>
+                        <span class="micro-meta-pill">
+                            <span class="micro-meta-pill-icon"></span>
+                            <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+                                <?php esc_html_e( 'Back to stream', 'microblog-stream' ); ?>
+                            </a>
                         </span>
-                    </a>
-
+                    <?php endif; ?>
                 </div>
-
-            </footer>
-        </div><!-- .micro-post-main -->
-
-    </div><!-- .micro-post-inner -->
+            </div>
+        </div>
+    </div>
 </article>
