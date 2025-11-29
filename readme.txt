@@ -3,7 +3,7 @@ Contributors: jimlunsford
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, front-page-post-form, translation-ready
@@ -24,11 +24,19 @@ Key features:
 * Titleless posting workflow, with admin titles automatically generated from date and time
 * X / Twitter inspired layout with avatar, author, and timestamp above each post
 * Single post view that keeps the same card based stream look
+* Inline composer for logged in authors on the main posts page
+* "Load more" style pagination that pulls older posts into the same stream
 * Accessible color contrast and keyboard focus styles
 * Skip link and screen reader utilities
 * Clean typography using Noto Sans (with system font fallbacks)
 * Responsive layout that works on phones, tablets, and desktops
 * No custom post types, blocks, page builders, or bundled plugins
+* New in 1.0.5:
+  * Replies count pill on each post card
+  * Simple like button with local storage and a small AJAX handler
+  * Optional Primary menu with a compact hamburger toggle in the header
+  * Dedicated `page.php` for static pages like About and Contact
+  * Back to top chip under the Load more section for long timelines
 
 The goal is to provide a focused writing experience for people who want to post small, frequent updates on their own domain instead of relying only on social platforms.
 
@@ -64,11 +72,27 @@ Yes. Posts are created with the normal WordPress editor. On the front end, Micro
 
 By default the footer shows a small credit line. If you are using the theme for your own site only, you may edit `footer.php` to change or remove the credit, as long as you follow the GPL license.
 
+= How do likes work in 1.0.5? =
+
+Each post can display a small like pill. When clicked, the count updates immediately and the liked state is stored in the browser using `localStorage` so a visitor cannot repeatedly increment their own count. A small AJAX call updates the stored count on the server.
+
+If you do not want likes at all, you can remove the like pill markup from the template. The JavaScript will then have nothing to attach to.
+
 == Screenshots ==
 
 1. The Microblog Stream front page showing the header card and timeline of posts.
 
 == Changelog ==
+
+= 1.0.5 =
+
+* Added replies count pill for each post card
+* Added like button support with optimistic UI, local storage, and an AJAX handler
+* Added `page.php` template for static pages like About and Contact
+* Added optional Primary menu with a hamburger style toggle in the header
+* Updated Load more logic so new posts are inserted above the button, keeping the control at the bottom of the stream
+* Added Back to top chip under the Load more section
+* Minor accessibility and visual polish
 
 = 1.0.4 =
 
@@ -107,6 +131,10 @@ By default the footer shows a small credit line. If you are using the theme for 
 * Basic single post template matching the stream look
 
 == Upgrade Notice ==
+
+= 1.0.5 =
+
+This release adds likes, replies pills, optional navigation, and small layout improvements. There are no breaking changes. Update and test on a staging site if you have customized templates.
 
 = 1.0.4 =
 

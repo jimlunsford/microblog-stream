@@ -8,7 +8,7 @@
 get_header();
 ?>
 
-<main id="content" class="site-main">
+<main id="site-main" class="site-main">
     <div class="timeline">
 
         <?php
@@ -83,6 +83,14 @@ get_header();
                     <?php endif; ?>
 
                 </div>
+
+                    <div class="pagination-back-to-top">
+                        <a href="#site-main" class="back-to-top-chip">
+                            <span class="back-to-top-chip-icon" aria-hidden="true">↑</span>
+                            <span class="back-to-top-chip-label"><?php esc_html_e( 'Back to top', 'microblog-stream' ); ?></span>
+                        </a>
+                    </div>
+
             <?php endif; ?>
 
         <?php else : ?>

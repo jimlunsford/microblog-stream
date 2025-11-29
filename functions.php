@@ -57,7 +57,7 @@ function microblog_stream_scripts() {
         wp_get_theme()->get( 'Version' )
     );
 
-    // Theme script for clickable cards and load more.
+    // Theme script for clickable cards, load more, and likes.
     wp_enqueue_script(
         'microblog-stream-script',
         get_template_directory_uri() . '/microblog.js',
@@ -66,13 +66,17 @@ function microblog_stream_scripts() {
         true
     );
 
-    // Localized strings for JavaScript.
+    // Localized strings and AJAX data for JavaScript.
     wp_localize_script(
         'microblog-stream-script',
         'microblogStreamL10n',
         array(
-            'loading'     => esc_html__( 'Loading...', 'microblog-stream' ),
-            'noMorePosts' => esc_html__( 'No more posts', 'microblog-stream' ),
+            'loading'      => esc_html__( 'Loading...', 'microblog-stream' ),
+            'noMorePosts'  => esc_html__( 'No more posts', 'microblog-stream' ),
+            'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
+            'likeNonce'    => wp_create_nonce( 'microblog_stream_like' ),
+            'likeSingular' => esc_html__( '%s like', 'microblog-stream' ),
+            'likePlural'   => esc_html__( '%s likes', 'microblog-stream' ),
         )
     );
 }
@@ -100,7 +104,7 @@ function microblog_stream_time_ago() {
 function microblog_stream_autotitle( $data, $postarr ) {
     if ( 'post' === $data['post_type'] && '' === trim( $data['post_title'] ) ) {
 
-        // Use the post date if present; otherwise use current time.
+        // Use the post date if present, otherwise use current time.
         if ( ! empty( $data['post_date'] ) && '0000-00-00 00:00:00' !== $data['post_date'] ) {
             $timestamp = strtotime( $data['post_date'] );
         } else {
@@ -147,7 +151,7 @@ function microblog_stream_handle_quick_post() {
     }
 
     $post_args = array(
-        'post_title'   => '', // You already handle empty titles by date and time.
+        'post_title'   => '', // Empty titles are auto handled above.
         'post_content' => $content,
         'post_status'  => 'publish',
         'post_type'    => 'post',
@@ -164,3 +168,45 @@ function microblog_stream_handle_quick_post() {
     exit;
 }
 add_action( 'admin_post_microblog_quick_post', 'microblog_stream_handle_quick_post' );
+
+/**
+ * Handle AJAX likes for micro posts.
+ */
+function microblog_stream_handle_like() {
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'microblog_stream_like' ) ) {
+        wp_send_json_error(
+            array(
+                'message' => __( 'Invalid like request.', 'microblog-stream' ),
+            )
+        );
+    }
+
+    $post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
+
+    if ( ! $post_id || 'post' !== get_post_type( $post_id ) ) {
+        wp_send_json_error(
+            array(
+                'message' => __( 'Invalid post.', 'microblog-stream' ),
+            )
+        );
+    }
+
+    $current = (int) get_post_meta( $post_id, 'microblog_stream_likes', true );
+    $new     = $current + 1;
+
+    update_post_meta( $post_id, 'microblog_stream_likes', $new );
+
+    $label = sprintf(
+        _n( '%s like', '%s likes', $new, 'microblog-stream' ),
+        number_format_i18n( $new )
+    );
+
+    wp_send_json_success(
+        array(
+            'count' => $new,
+            'label' => $label,
+        )
+    );
+}
+add_action( 'wp_ajax_microblog_stream_like', 'microblog_stream_handle_like' );
+add_action( 'wp_ajax_nopriv_microblog_stream_like', 'microblog_stream_handle_like' );

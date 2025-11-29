@@ -4,7 +4,7 @@ Microblog Stream is a lightweight WordPress theme that turns your site into a si
 
 This repo contains the source for the Microblog Stream theme.
 
-- **Current version:** 1.0.4  
+- **Current version:** 1.0.5  
 - **Requires at least:** WordPress 6.0  
 - **Tested up to:** WordPress 6.6  
 - **Requires PHP:** 7.4+
@@ -30,6 +30,12 @@ This repo contains the source for the Microblog Stream theme.
 - Clean typography using Noto Sans with system font fallbacks
 - Responsive layout that works on phones, tablets, and desktops
 - No custom post types, blocks, page builders, or bundled plugins
+- New in 1.0.5:
+  - Replies count pill on each post
+  - Simple like button for posts, with local storage and an AJAX endpoint
+  - Optional primary menu in the header, revealed with a compact hamburger chip
+  - Dedicated `page.php` template for static pages
+  - Back to top chip under the Load more section for long timelines
 
 ---
 
@@ -80,8 +86,21 @@ If you leave the title blank, the theme will auto generate a title based on date
 At the bottom of the timeline, you will see a **Load more** button when there are older posts available. Clicking it will:
 
 - Fetch the next page of posts in the background
-- Append them to the existing timeline
+- Insert the new posts above the Load more block
+- Keep the Load more control at the bottom of the stream
 - Update or disable the button when there are no more posts
+
+### Likes and replies
+
+Version 1.0.5 adds a small set of social style details:
+
+- A replies pill that shows the current comment count for each post
+- A like pill that:
+  - Updates the count in place when clicked
+  - Marks the button as liked and stores that state in `localStorage` on a per post basis
+  - Sends a lightweight AJAX request so counts stay in sync for visitors
+
+If you do not want likes, you can remove the like markup from the template. The JavaScript is defensive and will silently do nothing if there are no like buttons in the markup.
 
 ---
 
@@ -107,3 +126,12 @@ To work on the theme locally:
    ```bash
    cd wp-content/themes
    git clone https://github.com/jimlunsford/microblog-stream.git
+2. Activate the theme in your local WordPress install.
+3. Make your changes to the PHP, CSS, or JavaScript files.
+4. Use standard WordPress coding practices and keep the layout focused on speed and simplicity.
+
+---
+
+## License
+
+Microblog Stream is released under the GNU General Public License v2 or later. See LICENSE.txt for full details.

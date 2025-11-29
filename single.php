@@ -11,6 +11,14 @@ get_header();
 
     <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
+      <?php
+      $likes       = (int) get_post_meta( get_the_ID(), 'microblog_stream_likes', true );
+      $likes_label = sprintf(
+        _n( '%s like', '%s likes', $likes, 'microblog-stream' ),
+        number_format_i18n( $likes )
+      );
+      ?>
+
       <article id="post-<?php the_ID(); ?>" <?php post_class( 'micro-post' ); ?>>
         <div class="micro-post-inner">
 
@@ -51,6 +59,18 @@ get_header();
               </div>
 
               <div class="micro-post-actions">
+                <button
+                  type="button"
+                  class="micro-meta-pill micro-like-button"
+                  data-post-id="<?php the_ID(); ?>"
+                  aria-pressed="false"
+                >
+                  <span class="micro-meta-pill-icon"></span>
+                  <span class="micro-like-text">
+                    <?php echo esc_html( $likes_label ); ?>
+                  </span>
+                </button>
+
                 <span class="micro-meta-pill">
                   <span class="micro-meta-pill-icon"></span>
                   <?php

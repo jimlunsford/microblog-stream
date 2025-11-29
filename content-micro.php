@@ -4,6 +4,12 @@
  *
  * @package Microblog_Stream
  */
+
+$likes       = (int) get_post_meta( get_the_ID(), 'microblog_stream_likes', true );
+$likes_label = sprintf(
+    _n( '%s like', '%s likes', $likes, 'microblog-stream' ),
+    number_format_i18n( $likes )
+);
 ?>
 <article
     id="post-<?php the_ID(); ?>"
@@ -52,22 +58,32 @@
                 </div>
 
                 <div class="micro-post-actions">
-                    <?php if ( is_singular() ) : ?>
-                        <span class="micro-meta-pill">
-                            <span class="micro-meta-pill-icon"></span>
-                            <span>
-                                <?php
-                                echo esc_html(
-                                    get_comments_number_text(
-                                        __( '0 replies', 'microblog-stream' ),
-                                        __( '1 reply', 'microblog-stream' ),
-                                        __( '% replies', 'microblog-stream' )
-                                    )
-                                );
-                                ?>
-                            </span>
+                    <button
+                        type="button"
+                        class="micro-meta-pill micro-like-button"
+                        data-post-id="<?php the_ID(); ?>"
+                        aria-pressed="false"
+                    >
+                        <span class="micro-meta-pill-icon"></span>
+                        <span class="micro-like-text">
+                            <?php echo esc_html( $likes_label ); ?>
                         </span>
-                    <?php endif; ?>
+                    </button>
+
+                    <span class="micro-meta-pill">
+                        <span class="micro-meta-pill-icon"></span>
+                        <span>
+                            <?php
+                            echo esc_html(
+                                get_comments_number_text(
+                                    __( '0 replies', 'microblog-stream' ),
+                                    __( '1 reply', 'microblog-stream' ),
+                                    __( '% replies', 'microblog-stream' )
+                                )
+                            );
+                            ?>
+                        </span>
+                    </span>
                 </div>
             </div>
         </div>

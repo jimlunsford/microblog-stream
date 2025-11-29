@@ -4,7 +4,7 @@ Theme URI: https://github.com/jimlunsford/microblog-stream/
 Author: Jim Lunsford
 Author URI: https://jiml.fyi
 Description: A clean microblog theme that displays posts in a fast, scrollable timeline.
-Version: 1.0.4
+Version: 1.0.5
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -87,16 +87,16 @@ body {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.85));
   border-radius: var(--radius-lg);
   border: 1px solid rgba(148, 163, 184, 0.18);
-  padding: 0.6rem 1.3rem 1.1rem; /* less top padding, same bottom */
+  padding: 0.6rem 1.3rem 1.1rem;
   box-shadow: var(--shadow-soft);
 }
 
-/* branding block: now just the title + tagline */
+/* branding block: title + tagline */
+
 .site-branding {
   display: block;
 }
 
-/* hide the orange JL circle */
 .site-avatar {
   display: none;
   width: 38px;
@@ -109,17 +109,18 @@ body {
   font-weight: 700;
   font-size: 0.95rem;
   color: #f9fafb;
-  box-shadow: 0 0 0 1px rgba(15, 23, 42, 1), 0 0 18px rgba(249, 115, 22, 0.65);
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 1),
+    0 0 18px rgba(249, 115, 22, 0.65);
 }
 
 .site-title-group {
   display: flex;
   flex-direction: column;
   gap: 0.05rem;
-  margin-top: 0; /* no extra offset, header padding handles vertical balance */
+  margin-top: 0;
 }
 
-/* control default h1 spacing */
 .site-title {
   margin: 0;
   line-height: 1.1;
@@ -139,6 +140,8 @@ body {
   font-size: 0.78rem;
   color: var(--text-muted);
 }
+
+/* header chips + nav toggle */
 
 .site-meta-chips {
   display: flex;
@@ -163,7 +166,82 @@ body {
   height: 7px;
   border-radius: 999px;
   background: #22c55e;
-  box-shadow: 0 0 0 1px rgba(15, 23, 42, 1), 0 0 12px rgba(34, 197, 94, 0.85);
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 1),
+    0 0 12px rgba(34, 197, 94, 0.85);
+}
+
+/* nav toggle uses meta-chip base */
+
+.site-nav-toggle {
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.16), rgba(15, 23, 42, 0.95));
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.site-nav-toggle-label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.site-nav-toggle-icon {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.site-nav-toggle-icon span {
+  display: block;
+  width: 12px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(249, 250, 251, 0.9);
+}
+
+/* nav below header */
+
+.site-nav {
+  margin-top: 0.6rem;
+  display: none;
+}
+
+.site-nav.is-open {
+  display: block;
+}
+
+.site-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0.1rem 0.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+}
+
+.site-nav-list li {
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav-list a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.7rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  font-size: 0.78rem;
+  text-decoration: none;
+  color: var(--text-muted);
+  background: rgba(15, 23, 42, 0.96);
+}
+
+.site-nav-list a:hover,
+.site-nav-list a:focus {
+  border-color: rgba(249, 115, 22, 0.8);
+  color: #f9fafb;
 }
 
 /* Compose box on the front page */
@@ -224,7 +302,9 @@ body {
   cursor: pointer;
   background: var(--accent);
   color: #111827;
-  box-shadow: 0 0 0 1px rgba(15, 23, 42, 1), 0 0 14px rgba(249, 115, 22, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 1),
+    0 0 14px rgba(249, 115, 22, 0.6);
 }
 
 .micro-compose-submit:hover {
@@ -242,7 +322,7 @@ body {
 .timeline {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* a bit more space between posts, X style */
+  gap: 1.5rem;
 }
 
 .micro-post {
@@ -284,7 +364,9 @@ body {
   height: 40px;
   border-radius: 50%;
   border: 2px solid rgba(249, 115, 22, 0.7);
-  box-shadow: 0 0 0 1px rgba(15, 23, 42, 1), 0 0 14px rgba(249, 115, 22, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 1),
+    0 0 14px rgba(249, 115, 22, 0.5);
 }
 
 /* Title and content */
@@ -292,7 +374,7 @@ body {
 .micro-post-main {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* slightly tighter stack for header line and body */
+  gap: 0.5rem;
 }
 
 .micro-post-title {
@@ -311,7 +393,8 @@ body {
   text-decoration: underline;
 }
 
-/* Author · date time header line, more "meta" than body text */
+/* Author · date time header line */
+
 .micro-post-headerline {
   display: flex;
   align-items: center;
@@ -412,7 +495,22 @@ body {
   box-shadow: 0 0 0 1px rgba(31, 41, 55, 1);
 }
 
-/* Pagination */
+/* Like button styling */
+
+.micro-like-button {
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.micro-like-button.is-liked {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.5);
+  opacity: 0.95;
+}
+
+/* Classic pagination */
 
 .pagination {
   display: flex;
@@ -456,7 +554,9 @@ body {
   border: none;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 0 0 1px rgba(15, 23, 42, 1), 0 0 14px rgba(249, 115, 22, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 1),
+    0 0 14px rgba(249, 115, 22, 0.6);
 }
 
 .pagination-load-more .pagination-older a:hover {
@@ -477,6 +577,38 @@ body {
 
 .pagination-load-more .pagination-newer a:hover {
   color: #fed7aa;
+}
+
+/* Back to top chip under Load more */
+
+.pagination-back-to-top {
+  margin-top: 0.35rem;
+  display: flex;
+  justify-content: center;
+}
+
+.back-to-top-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  background: rgba(15, 23, 42, 0.96);
+  font-size: 0.78rem;
+  text-decoration: none;
+  color: var(--text-muted);
+}
+
+.back-to-top-chip:hover,
+.back-to-top-chip:focus-visible {
+  border-color: rgba(249, 115, 22, 0.8);
+  color: #f9fafb;
+}
+
+.back-to-top-chip-icon {
+  font-size: 0.9rem;
+  line-height: 1;
 }
 
 /* Footer */
@@ -521,14 +653,14 @@ pre {
 /* Single post view */
 
 .single .micro-post {
-  cursor: default; /* front page cards feel clickable, single view does not need that */
+  cursor: default;
 }
 
 .comments-wrap {
   margin-top: 1.25rem;
 }
 
-/* Comment area styled to feel like part of the stream */
+/* Comment area */
 
 .comments-area {
   margin: 0;
@@ -631,7 +763,7 @@ pre {
   clip: auto;
 }
 
-/* Skip link for keyboard users */
+/* Skip link */
 
 .skip-link {
   position: absolute;
@@ -655,7 +787,7 @@ pre {
   opacity: 1;
 }
 
-/* Ensure links in content and comments are underlined */
+/* Underline links in content and comments */
 
 .micro-post-content a,
 .comment-content a {
