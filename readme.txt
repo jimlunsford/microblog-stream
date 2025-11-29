@@ -1,15 +1,9 @@
-
----
-
-## `readme.txt` for 1.0.6
-
-```text
 === Microblog Stream ===
 Contributors: jimlunsford
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, front-page-post-form, translation-ready
@@ -37,6 +31,9 @@ Key features:
 * Clean typography using Noto Sans (with system font fallbacks)
 * Responsive layout that works on phones, tablets, and desktops
 * No custom post types, blocks, page builders, or bundled plugins
+* New in 1.0.7:
+  * Resized `screenshot.png` to reduce file size for WordPress.org theme checks and faster loading
+  * No functional code changes from 1.0.6
 * New in 1.0.6:
   * Inline composer can attach images, video, audio, and common document types to new posts
   * Simple media preview with thumbnail support for images and a Remove button before posting
@@ -95,6 +92,11 @@ If you do not want likes at all, you can remove the like pill markup from the te
 
 == Changelog ==
 
+= 1.0.7 =
+
+* Resized `screenshot.png` to a smaller file size for faster loading and to satisfy WordPress.org theme checks
+* No functional code changes from 1.0.6
+
 = 1.0.6 =
 
 * Added optional media upload support in the inline composer for images, video, audio, and common document types
@@ -150,6 +152,10 @@ If you do not want likes at all, you can remove the like pill markup from the te
 * Basic single post template matching the stream look
 
 == Upgrade Notice ==
+
+= 1.0.7 =
+
+This release only resizes `screenshot.png` to reduce file size for theme previews and WordPress.org theme checks. There are no functional changes compared to 1.0.6. You can safely upgrade without impacting your content or layout.
 
 = 1.0.6 =
 
