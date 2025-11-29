@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     card.addEventListener('click', function (e) {
       var target = e.target;
 
-      // Ignore clicks on links or form controls
+      // Ignore clicks on links or form controls or media controls
       while (target && target !== card) {
         var tag = target.tagName;
         if (
@@ -17,7 +17,9 @@ document.addEventListener('DOMContentLoaded', function () {
           tag === 'INPUT' ||
           tag === 'TEXTAREA' ||
           tag === 'SELECT' ||
-          tag === 'LABEL'
+          tag === 'LABEL' ||
+          tag === 'VIDEO' ||
+          tag === 'AUDIO'
         ) {
           return;
         }
@@ -48,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
   if (loadMoreLink && timeline) {
     var isLoading = false;
     var originalLabel = loadMoreLink.textContent;
-    // Cache the pagination container so we know where to insert new posts
     var paginationContainer = loadMoreLink.closest('.pagination-load-more');
 
     loadMoreLink.addEventListener('click', function (e) {
@@ -91,11 +92,9 @@ document.addEventListener('DOMContentLoaded', function () {
           }
 
           newPosts.forEach(function (post) {
-            // Decide where to insert: before the pagination block if it sits inside .timeline
             if (paginationContainer && timeline.contains(paginationContainer)) {
               timeline.insertBefore(post, paginationContainer);
             } else {
-              // Fallback, just append at the end
               timeline.appendChild(post);
             }
             wireMicroPostCard(post);
@@ -122,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         })
         .catch(function () {
-          // On error, revert label so user can try again
           loadMoreLink.textContent = originalLabel;
         })
         .finally(function () {
@@ -276,6 +274,111 @@ document.addEventListener('DOMContentLoaded', function () {
       siteNav.classList.remove('is-open');
       navToggle.classList.remove('is-active');
       navToggle.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  // Front page composer file preview
+  var fileInput = document.querySelector('.micro-compose-file');
+  var previewBox = document.querySelector('.micro-compose-preview');
+
+  function clearComposePreview() {
+    if (!previewBox || !fileInput) {
+      return;
+    }
+    previewBox.innerHTML = '';
+    previewBox.classList.remove('is-visible');
+    // Clear the file input so a new file can be chosen
+    fileInput.value = '';
+  }
+
+  function wirePreviewRemove() {
+    if (!previewBox) {
+      return;
+    }
+    var removeBtn = previewBox.querySelector('.micro-compose-preview-remove');
+    if (!removeBtn) {
+      return;
+    }
+    removeBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      clearComposePreview();
+    });
+  }
+
+  if (fileInput && previewBox) {
+    fileInput.addEventListener('change', function () {
+      var files = fileInput.files;
+      if (!files || !files[0]) {
+        clearComposePreview();
+        return;
+      }
+
+      var file = files[0];
+      var type = file.type || '';
+      var name = file.name || '';
+
+      // Default preview for non image
+      var typeLabel = 'Attached file';
+      if (type.indexOf('image/') === 0) {
+        typeLabel = 'Image attachment';
+      } else if (type.indexOf('video/') === 0) {
+        typeLabel = 'Video attachment';
+      } else if (type.indexOf('audio/') === 0) {
+        typeLabel = 'Audio attachment';
+      } else if (type) {
+        typeLabel = 'Document attachment';
+      }
+
+      // If not an image, simple icon preview
+      if (type.indexOf('image/') !== 0) {
+        previewBox.innerHTML =
+          '<div class="micro-compose-preview-inner">' +
+          '<div class="micro-compose-preview-icon">📎</div>' +
+          '<div class="micro-compose-preview-meta">' +
+          '<div class="micro-compose-preview-name">' +
+          name +
+          '</div>' +
+          '<div class="micro-compose-preview-type">' +
+          typeLabel +
+          '</div>' +
+          '<button type="button" class="micro-compose-preview-remove">Remove</button>' +
+          '</div>' +
+          '</div>';
+
+        previewBox.classList.add('is-visible');
+        wirePreviewRemove();
+        return;
+      }
+
+      // For images, show a thumbnail using FileReader
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        var src = event && event.target ? event.target.result : '';
+
+        previewBox.innerHTML =
+          '<div class="micro-compose-preview-inner">' +
+          '<div class="micro-compose-preview-thumb">' +
+          '<img src="' +
+          src +
+          '" alt="">' +
+          '</div>' +
+          '<div class="micro-compose-preview-meta">' +
+          '<div class="micro-compose-preview-name">' +
+          name +
+          '</div>' +
+          '<div class="micro-compose-preview-type">' +
+          typeLabel +
+          '</div>' +
+          '<button type="button" class="micro-compose-preview-remove">Remove</button>' +
+          '</div>' +
+          '</div>';
+
+        previewBox.classList.add('is-visible');
+        wirePreviewRemove();
+      };
+
+      reader.readAsDataURL(file);
     });
   }
 });

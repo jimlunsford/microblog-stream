@@ -1,9 +1,15 @@
+
+---
+
+## `readme.txt` for 1.0.6
+
+```text
 === Microblog Stream ===
 Contributors: jimlunsford
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, front-page-post-form, translation-ready
@@ -31,6 +37,11 @@ Key features:
 * Clean typography using Noto Sans (with system font fallbacks)
 * Responsive layout that works on phones, tablets, and desktops
 * No custom post types, blocks, page builders, or bundled plugins
+* New in 1.0.6:
+  * Inline composer can attach images, video, audio, and common document types to new posts
+  * Simple media preview with thumbnail support for images and a Remove button before posting
+  * Auto generated admin titles now use a numeric date and time format that includes seconds
+  * Plain text URLs in post content are automatically converted to clickable links
 * New in 1.0.5:
   * Replies count pill on each post card
   * Simple like button with local storage and a small AJAX handler
@@ -72,7 +83,7 @@ Yes. Posts are created with the normal WordPress editor. On the front end, Micro
 
 By default the footer shows a small credit line. If you are using the theme for your own site only, you may edit `footer.php` to change or remove the credit, as long as you follow the GPL license.
 
-= How do likes work in 1.0.5? =
+= How do likes work in 1.0.5 and later? =
 
 Each post can display a small like pill. When clicked, the count updates immediately and the liked state is stored in the browser using `localStorage` so a visitor cannot repeatedly increment their own count. A small AJAX call updates the stored count on the server.
 
@@ -83,6 +94,14 @@ If you do not want likes at all, you can remove the like pill markup from the te
 1. The Microblog Stream front page showing the header card and timeline of posts.
 
 == Changelog ==
+
+= 1.0.6 =
+
+* Added optional media upload support in the inline composer for images, video, audio, and common document types
+* Added a small media preview area under the composer with thumbnails for images and a Remove control before publishing
+* Updated auto generated titles for titleless posts to use a numeric date and time format that includes seconds
+* Updated content handling so plain text URLs in post content are automatically converted into clickable links
+* Removed the helper hint text under the composer to keep the posting area cleaner
 
 = 1.0.5 =
 
@@ -131,6 +150,10 @@ If you do not want likes at all, you can remove the like pill markup from the te
 * Basic single post template matching the stream look
 
 == Upgrade Notice ==
+
+= 1.0.6 =
+
+This release adds media uploads to the inline composer, a simple attachment preview, and automatic link detection in post content. There are no breaking changes. Update and test on a staging site if you have customized templates.
 
 = 1.0.5 =
 

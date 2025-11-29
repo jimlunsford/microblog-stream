@@ -4,7 +4,7 @@ Microblog Stream is a lightweight WordPress theme that turns your site into a si
 
 This repo contains the source for the Microblog Stream theme.
 
-- **Current version:** 1.0.5  
+- **Current version:** 1.0.6  
 - **Requires at least:** WordPress 6.0  
 - **Tested up to:** WordPress 6.6  
 - **Requires PHP:** 7.4+
@@ -30,6 +30,11 @@ This repo contains the source for the Microblog Stream theme.
 - Clean typography using Noto Sans with system font fallbacks
 - Responsive layout that works on phones, tablets, and desktops
 - No custom post types, blocks, page builders, or bundled plugins
+- New in 1.0.6:
+  - Inline composer can attach images, video, audio, and common document types to new posts
+  - Simple preview panel for attached media, including thumbnails for images and a Remove button before posting
+  - Auto generated admin titles now use a numeric timestamp format with seconds when the title is left blank
+  - Plain text URLs in post content are automatically converted into clickable links
 - New in 1.0.5:
   - Replies count pill on each post
   - Simple like button for posts, with local storage and an AJAX endpoint
@@ -76,8 +81,9 @@ If you want the timeline on a different page, you can set **Settings → Reading
 On the main posts page, logged in users who can publish posts will see an inline composer:
 
 - Type your update into the textarea
+- Optionally attach an image, video, audio, or document file
 - Click **Post**
-- The theme sends the content through a simple handler that publishes a new standard post
+- The theme sends the content through a simple handler that publishes a new standard post and associates the uploaded media with it
 
 If you leave the title blank, the theme will auto generate a title based on date and time. This keeps the editor clean while still giving the post a unique title for the admin area.
 
@@ -92,7 +98,7 @@ At the bottom of the timeline, you will see a **Load more** button when there ar
 
 ### Likes and replies
 
-Version 1.0.5 adds a small set of social style details:
+Versions 1.0.5 and later add a small set of social style details:
 
 - A replies pill that shows the current comment count for each post
 - A like pill that:

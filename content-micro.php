@@ -1,39 +1,33 @@
 <?php
 /**
- * Template part for displaying a microblog post
+ * Template part for displaying a single micro post card.
  *
  * @package Microblog_Stream
  */
 
-$likes       = (int) get_post_meta( get_the_ID(), 'microblog_stream_likes', true );
-$likes_label = sprintf(
-    _n( '%s like', '%s likes', $likes, 'microblog-stream' ),
-    number_format_i18n( $likes )
-);
+$permalink = get_permalink();
+$likes     = (int) get_post_meta( get_the_ID(), '_microblog_like_count', true );
+$replies   = get_comments_number();
+$media_id  = (int) get_post_meta( get_the_ID(), '_microblog_media_id', true );
 ?>
+
 <article
     id="post-<?php the_ID(); ?>"
     <?php post_class( 'micro-post' ); ?>
-    data-permalink="<?php the_permalink(); ?>"
+    data-permalink="<?php echo esc_url( $permalink ); ?>"
 >
     <div class="micro-post-inner">
 
         <div class="micro-post-avatar">
-            <?php
-            // Use the post author's avatar; 40px is styled in CSS.
-            echo get_avatar( get_the_author_meta( 'ID' ), 40 );
-            ?>
+            <?php echo get_avatar( get_the_author_meta( 'ID' ), 40 ); ?>
         </div>
 
         <div class="micro-post-main">
-
             <div class="micro-post-headerline">
-                <span class="micro-post-author">
-                    <?php echo esc_html( get_the_author() ); ?>
-                </span>
-                <span class="micro-post-separator">&middot;</span>
+                <span class="micro-post-author"><?php the_author(); ?></span>
+                <span class="micro-post-separator">·</span>
                 <span class="micro-post-datetime">
-                    <?php echo esc_html( get_the_time( 'M j, Y g:i a' ) ); ?>
+                    <?php microblog_stream_time_ago(); ?>
                 </span>
             </div>
 
@@ -41,51 +35,82 @@ $likes_label = sprintf(
                 <?php the_content(); ?>
             </div>
 
-            <div class="micro-post-meta">
+            <?php if ( $media_id ) : ?>
+                <?php
+                $mime_type = get_post_mime_type( $media_id );
+                $media_url = wp_get_attachment_url( $media_id );
+                ?>
+                <?php if ( $mime_type && $media_url ) : ?>
+                    <div class="micro-post-media">
+                        <?php if ( 0 === strpos( $mime_type, 'image/' ) ) : ?>
+
+                            <?php echo wp_get_attachment_image( $media_id, 'large' ); ?>
+
+                        <?php elseif ( 0 === strpos( $mime_type, 'video/' ) ) : ?>
+
+                            <?php echo wp_video_shortcode( array( 'src' => $media_url ) ); ?>
+
+                        <?php elseif ( 0 === strpos( $mime_type, 'audio/' ) ) : ?>
+
+                            <?php echo wp_audio_shortcode( array( 'src' => $media_url ) ); ?>
+
+                        <?php else : ?>
+                            <a
+                                href="<?php echo esc_url( $media_url ); ?>"
+                                class="micro-doc-chip"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <span class="micro-doc-chip-icon" aria-hidden="true">📄</span>
+                                <span class="micro-doc-chip-label">
+                                    <?php echo esc_html( get_the_title( $media_id ) ); ?>
+                                </span>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <footer class="micro-post-meta">
+
                 <div class="micro-post-tags">
-                    <?php
-                    $tags = get_the_tags();
-                    if ( $tags ) {
-                        foreach ( $tags as $tag ) {
-                            printf(
-                                '<a class="micro-tag" href="%1$s">#%2$s</a>',
-                                esc_url( get_tag_link( $tag->term_id ) ),
-                                esc_html( $tag->name )
-                            );
-                        }
-                    }
-                    ?>
+                    <?php the_tags( '', '', '' ); ?>
                 </div>
 
                 <div class="micro-post-actions">
+
                     <button
                         type="button"
                         class="micro-meta-pill micro-like-button"
                         data-post-id="<?php the_ID(); ?>"
                         aria-pressed="false"
                     >
-                        <span class="micro-meta-pill-icon"></span>
+                        <span class="micro-meta-pill-icon" aria-hidden="true"></span>
                         <span class="micro-like-text">
-                            <?php echo esc_html( $likes_label ); ?>
+                            <?php echo esc_html( microblog_stream_like_label( $likes ) ); ?>
                         </span>
                     </button>
 
-                    <span class="micro-meta-pill">
-                        <span class="micro-meta-pill-icon"></span>
-                        <span>
+                    <a
+                        class="micro-meta-pill micro-replies-pill"
+                        href="<?php echo esc_url( get_comments_link() ); ?>"
+                    >
+                        <span class="micro-meta-pill-icon" aria-hidden="true"></span>
+                        <span class="micro-replies-text">
                             <?php
-                            echo esc_html(
-                                get_comments_number_text(
-                                    __( '0 replies', 'microblog-stream' ),
-                                    __( '1 reply', 'microblog-stream' ),
-                                    __( '% replies', 'microblog-stream' )
-                                )
+                            /* translators: %s: number of replies (comments). */
+                            printf(
+                                esc_html( _n( '%s reply', '%s replies', $replies, 'microblog-stream' ) ),
+                                number_format_i18n( $replies )
                             );
                             ?>
                         </span>
-                    </span>
+                    </a>
+
                 </div>
-            </div>
-        </div>
-    </div>
+
+            </footer>
+        </div><!-- .micro-post-main -->
+
+    </div><!-- .micro-post-inner -->
 </article>

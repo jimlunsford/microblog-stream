@@ -20,6 +20,7 @@ get_header();
                     class="micro-compose-form"
                     action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
                     method="post"
+                    enctype="multipart/form-data"
                 >
                     <div class="micro-compose-inner">
                         <textarea
@@ -31,13 +32,29 @@ get_header();
                         ></textarea>
 
                         <div class="micro-compose-footer">
-                            <span class="micro-compose-hint">
-                                <?php esc_html_e( 'Press Post to publish a new update.', 'microblog-stream' ); ?>
-                            </span>
+                            <div class="micro-compose-left">
+                                <?php if ( current_user_can( 'upload_files' ) ) : ?>
+                                    <label class="micro-compose-attach">
+                                        <span class="micro-compose-attach-icon" aria-hidden="true">📎</span>
+                                        <span class="micro-compose-attach-label">
+                                            <?php esc_html_e( 'Attach media', 'microblog-stream' ); ?>
+                                        </span>
+                                        <input
+                                            type="file"
+                                            name="microblog_media"
+                                            class="micro-compose-file"
+                                            accept="image/*,audio/*,video/*,.pdf,.doc,.docx,.txt"
+                                        />
+                                    </label>
+                                <?php endif; ?>
+                            </div>
+
                             <button type="submit" class="micro-compose-submit">
                                 <?php esc_html_e( 'Post', 'microblog-stream' ); ?>
                             </button>
                         </div>
+
+                        <div class="micro-compose-preview" aria-live="polite"></div>
                     </div>
 
                     <input type="hidden" name="action" value="microblog_quick_post" />
@@ -84,12 +101,12 @@ get_header();
 
                 </div>
 
-                    <div class="pagination-back-to-top">
-                        <a href="#site-main" class="back-to-top-chip">
-                            <span class="back-to-top-chip-icon" aria-hidden="true">↑</span>
-                            <span class="back-to-top-chip-label"><?php esc_html_e( 'Back to top', 'microblog-stream' ); ?></span>
-                        </a>
-                    </div>
+                <div class="pagination-back-to-top">
+                    <a href="#site-main" class="back-to-top-chip">
+                        <span class="back-to-top-chip-icon" aria-hidden="true">↑</span>
+                        <span class="back-to-top-chip-label"><?php esc_html_e( 'Back to top', 'microblog-stream' ); ?></span>
+                    </a>
+                </div>
 
             <?php endif; ?>
 

@@ -4,7 +4,7 @@ Theme URI: https://github.com/jimlunsford/microblog-stream/
 Author: Jim Lunsford
 Author URI: https://jiml.fyi
 Description: A clean microblog theme that displays posts in a fast, scrollable timeline.
-Version: 1.0.5
+Version: 1.0.6
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -288,6 +288,13 @@ body {
   gap: 0.75rem;
 }
 
+.micro-compose-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
 .micro-compose-hint {
   font-size: 0.78rem;
   color: var(--text-muted);
@@ -315,6 +322,108 @@ body {
   margin-top: 0.35rem;
   font-size: 0.78rem;
   color: var(--text-muted);
+}
+
+/* attach media chip */
+
+.micro-compose-attach {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.18rem 0.75rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  background: rgba(15, 23, 42, 0.96);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.micro-compose-attach-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.micro-compose-file {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* attach preview */
+
+.micro-compose-preview {
+  margin-top: 0.55rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px dashed rgba(55, 65, 81, 0.85);
+  background: rgba(15, 23, 42, 0.85);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: none;
+}
+
+.micro-compose-preview.is-visible {
+  display: block;
+}
+
+.micro-compose-preview-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.micro-compose-preview-thumb {
+  flex: 0 0 auto;
+}
+
+.micro-compose-preview-thumb img {
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(31, 41, 55, 0.9);
+}
+
+.micro-compose-preview-icon {
+  flex: 0 0 auto;
+  font-size: 1rem;
+}
+
+.micro-compose-preview-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.micro-compose-preview-name {
+  font-size: 0.82rem;
+  color: #e5e7eb;
+}
+
+.micro-compose-preview-type {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.micro-compose-preview-remove {
+  margin-top: 0.2rem;
+  align-self: flex-start;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(75, 85, 99, 0.9);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  padding: 0.12rem 0.6rem;
+  cursor: pointer;
+}
+
+.micro-compose-preview-remove:hover {
+  border-color: rgba(239, 68, 68, 0.9);
+  color: #fee2e2;
 }
 
 /* Timeline */
@@ -433,6 +542,56 @@ body {
 
 .micro-post-content p:last-child {
   margin-bottom: 0;
+}
+
+/* media inside cards */
+
+.micro-post-media {
+  margin-top: 0.4rem;
+}
+
+.micro-post-media img,
+.micro-post-media video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(31, 41, 55, 0.9);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
+}
+
+.micro-post-media .wp-video,
+.micro-post-media .wp-video-shortcode,
+.micro-post-media .wp-audio-shortcode {
+  max-width: 100%;
+}
+
+.micro-post-media audio {
+  width: 100%;
+}
+
+/* document chip */
+
+.micro-doc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.75rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  background: rgba(15, 23, 42, 0.96);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.micro-doc-chip:hover {
+  border-color: rgba(249, 115, 22, 0.8);
+  color: #f9fafb;
+}
+
+.micro-doc-chip-icon {
+  font-size: 0.9rem;
 }
 
 /* Meta footer */
